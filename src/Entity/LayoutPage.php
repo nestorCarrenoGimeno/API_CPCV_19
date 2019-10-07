@@ -13,7 +13,10 @@ namespace App\Entity;
  
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\JoinColumn;
  
+
 /**
  * LayoutPage
  *
@@ -31,14 +34,22 @@ class LayoutPage
     protected $id;
  
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Exhibitor")
+     * @ManyToOne(targetEntity="Exhibitor", inversedBy="layoutPages")
+     * @JoinColumn(name="exhibitor_id", referencedColumnName="id")
      */
     protected $exhibitor;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Language")
+     * @JoinColumn(name="language_id", referencedColumnName="id")
      */
     protected $language;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Photography")
+     * @JoinColumn(name="photography_id", referencedColumnName="id")
+     */
+    protected $photography;
 
  
     public function __construct()
@@ -84,5 +95,21 @@ class LayoutPage
     public function setlanguage($language)
     {
         $this->language = $language;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhotography()
+    {
+        return $this->photography;
+    }
+ 
+    /**
+     * @param mixed $photography
+     */
+    public function setPhotography($photography)
+    {
+        $this->photography = $photography;
     }
 }

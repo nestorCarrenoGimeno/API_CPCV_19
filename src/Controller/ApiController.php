@@ -33,54 +33,44 @@ use Swagger\Annotations as SWG;
  */
 class ApiController extends FOSRestController
 {
-    // Expositor URI's
+    // Exhibitor URI's
  
     /**
-     * @Rest\Get("/expositor/{id}", name="expositor", defaults={"id":"0"})
+     * @Rest\Get("/exhibitor/{id}", name="Exhibitor")
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Gets board info based on passed ID parameter."
+     *     description="Returns all the data for a single exhibitor."
      * )
      *
      * @SWG\Response(
      *     response=400,
-     *     description="The board with the passed ID parameter was not found or doesn't exist."
+     *     description="The exhibitor with the passed ID parameter was not found or doesn't exist."
      * )
      *
      * @SWG\Parameter(
      *     name="id",
      *     in="path",
-     *     type="string",
-     *     description="The board ID"
+     *     type="integer",
+     *     description="The exhibitor ID"
      * )
      *
      *
-     * @SWG\Tag(name="Expositor")
+     * @SWG\Tag(name="Exhibitor")
      */
-    public function getExpositorInfo(Request $request, $id) {
+    public function getExhibitorUpdatedData(Request $request, $id) {
         $serializer = $this->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
         $exhibitor = [];
-        $message = "";
+        $message = "Error";
  
         try {
-           $code = 201;
-           $error = false;
-           $name = "Nombre test";
+            $code = 200;
+            $error = false;
+            $name = "Nombre test";
  
-           if (!is_null($name)) {
-               $exhibitor = new Exhibitor();
-               $exhibitor->setName($name);
- 
-               $em->persist($exhibitor);
-               $em->flush();
- 
-           } else {
-               $code = 500;
-               $error = true;
-               $message = "An error has occurred trying to add new board - Error: You must to provide a board name";
-           }
+            $exhibitor_id = $id;
+            $exhibitor = $em->getRepository("App:Exhibitor")->find($exhibitor_id);
  
         } catch (Exception $ex) {
             $code = 500;
@@ -91,7 +81,7 @@ class ApiController extends FOSRestController
         $response = [
             'code' => $code,
             'error' => $error,
-            'data' => $code == 201 ? $exhibitor : $message,
+            'data' => $code == 200 ? $exhibitor : $message,
         ];
  
         return new Response($serializer->serialize($response, "json"));

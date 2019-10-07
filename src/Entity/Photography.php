@@ -31,15 +31,9 @@ class Photography
     protected $id;
 
     /**
-     * @ORM\Column(name="photography_blob", type="blob")
+     * @ORM\Column(name="photography_route", type="string")
      */
-    protected $photographyBlob;
- 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\LayoutPage")
-     */
-    protected $layoutPage;
-
+    protected $photographyRoute;
  
     public function __construct()
     {

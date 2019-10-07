@@ -35,6 +35,11 @@ class Exhibitor
      */
     protected $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\LayoutPage", mappedBy="exhibitor")
+     */
+    protected $layoutPages;
+
  
     public function __construct()
     {
@@ -66,5 +71,13 @@ class Exhibitor
         $this->name = $name;
  
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPages()
+    {
+        return $this->pages;
     }
 }
